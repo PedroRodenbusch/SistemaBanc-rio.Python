@@ -1,0 +1,58 @@
+saldo = 0
+extrato = ''
+extrato_saque = ''
+extrato_deposito = ' ' 
+menu = '''
+_________________________
+     Menu Principal
+*************************
+[1] - Saque 
+[2] - Depósito
+[3] - Extrato 
+[4] - Sair
+
+*************************
+'''
+while True:
+    opcao = str(input("Deseja realizar uma nova operação? [1] - Sim     [2] - Não \nResposta: " ))
+    
+    
+    if opcao =='1':
+        print(menu)
+        operacao = int(input("Digite a operação desejada: ")) #Usuário solicta uma das opções do menu acima
+        if operacao == 1: #Operação 1 = Saque
+            numero_saques = int(input("Informe a quantidade de saques: ")) #Solicita a quantidade de saques
+            if numero_saques < 4:
+                for i in range(numero_saques):
+                    saque = int(input("Informe o valor do saque: ")) #Se a quantidade for menor do que 4, pode sacar.
+                    extrato_saque += f' - R$ {float(saque)} \n'
+                    if saque <= 500:
+                        if saque > saldo: #Condição se o saque for maior do que o saldo. Não pode sacar. Operação cancelada.
+                            print(f'Saldo insuficiente. O valor do seu saldo atual é de R$ {float(saldo)}') #Resposta do servidor.
+                        else: #Se não, o saque < saldo. Pode sacar.
+                            saldo -=saque
+                            print(f'Saque de R$ {float(saque)} realizado. Seu saldo atual é de R$ {float(saldo)}') #Resposta do servidor. Saque solicitado e saldo atual.
+                    else:
+                        print("Operação cancelada. Limite de saque diário é de R$500.00.")
+            else:
+                print("Número de saques excedido. Seu limite é de até 3 saques diários.")
+                break
+        elif operacao == 2: #Se a operação for depósito..
+            deposito_realizado = int(input("Informe o valor do depósito: ")) #Informe o valor do depósito.
+            saldo += deposito_realizado #Resposta do servido referente ao saldo atual: Saldo anterior + Depósito
+            extrato_deposito+= f' R$ {float(deposito_realizado)}\n'
+            print(f'Depósito realizado: R$ {float(deposito_realizado)} , seu novo saldo é de R$ {float(saldo)}')
+        elif operacao ==3:
+            print("* * * * * EXTRATO * * * * * ")
+            print(f' Depósitos Realizados: \n',extrato_deposito.strip())
+            print(f' Saques Realizados: \n', (extrato_saque.strip()))
+            print(f'\nSaldo Atual: R$ {saldo}')
+        
+    elif opcao =='2':
+        print("Operação encerrada ! Volte sempre! ")
+        break
+    else:
+        print("Opereação Inválida ! Sistema encerrado. Volte sempre !")
+else:
+    print("Operação encerrada.")
+        
